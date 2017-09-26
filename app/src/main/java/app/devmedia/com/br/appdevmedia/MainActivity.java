@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,8 +11,10 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-import java.util.List;
+import app.devmedia.com.br.appdevmedia.adapter.ViewPagerAdapter;
+import app.devmedia.com.br.appdevmedia.async.AsyncUsuario;
+import app.devmedia.com.br.appdevmedia.fragment.FragmentPerfil;
+import app.devmedia.com.br.appdevmedia.fragment.FragmentProdutos;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        new AsyncUsuario(this).execute("http://172.16.2.56:8080/lojavirtual-web/rest/alo/param/amanda");
+
     }
 
     @Override
@@ -58,50 +59,9 @@ public class MainActivity extends AppCompatActivity {
     protected void configurarViewPager(ViewPager viewPager) {
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager() );
-        viewPagerAdapter.addFragment(new FragmentAlo(), "Alo" );
-        viewPagerAdapter.addFragment(new FragmentAlo(), "Alo2" );
+        viewPagerAdapter.addFragment(new FragmentProdutos(), "Produtos" );
+        viewPagerAdapter.addFragment(new FragmentPerfil(), "Perfil" );
         viewPager.setAdapter(viewPagerAdapter);
-
-    }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-
-        protected List<Fragment> fragments = new ArrayList<>();
-        protected List<String> titulos = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager fm) {
-
-            super(fm);
-
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            return fragments.get(position);
-
-        }
-
-        @Override
-        public int getCount() {
-
-            return fragments.size();
-
-        }
-
-        public void addFragment(Fragment fragment, String titulo) {
-
-            fragments.add(fragment);
-            titulos.add(titulo);
-
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-
-            return titulos.get(position);
-
-        }
 
     }
 
