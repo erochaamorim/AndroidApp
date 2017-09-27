@@ -4,7 +4,23 @@
     <color name="colorPrimary">#7cac3c</color>
     <color name="colorPrimaryDark">#6b9433</color>
     <color name="colorAccent">#f47322</color>
+
     <color name="colorWhite">#fff</color>
     <color name="colorSplashBG">#daf9b1</color>
+
+    <color name="main_bg">#f2f7de</color>
+
+    <color name="branco">#fff</color>
+
+    <color name="bg_toast">#b7c4b8</color>
+
+    <color name="bg_dialog_sucesso">#65ec69</color>
+    <color name="bg_dialog_alerta">#ffa622</color>
+    <color name="bg_dialog_erro">#b8022c</color>
+    <color name="bg_dialog_info">#68aace</color>
+
+    <color name="bg_btn_action">#74ca6a</color>
+
+    <color name="txt_padrao">#535151</color>
 
 </resources>

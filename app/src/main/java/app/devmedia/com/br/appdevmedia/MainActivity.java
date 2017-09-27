@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        new AsyncUsuario(this).execute("http://172.16.2.56:8080/lojavirtual-web/rest/alo/param/amanda");
-
     }
 
     @Override

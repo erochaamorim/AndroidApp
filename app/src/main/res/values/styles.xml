@@ -21,4 +21,60 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Label">
+        <item name="android:textColor">@color/txt_padrao</item>
+        <item name="android:textSize">@dimen/txt_lg</item>
+        <item name="android:layout_marginBottom">@dimen/margin_widgets</item>
+    </style>
+
+    <style name="Edt">
+        <item name="android:textSize">@dimen/txt_lg</item>
+        <item name="android:layout_marginBottom">@dimen/margin_widgets</item>
+    </style>
+
+    <style name="AppTheme.Dark.Dialog.Sucesso" parent="AppTheme.Dark.Dialog.Base">
+
+        <item name="android:background">@color/bg_dialog_sucesso</item>
+
+    </style>
+
+    <style name="AppTheme.Dark.Dialog.Alerta" parent="AppTheme.Dark.Dialog.Base">
+
+        <item name="android:background">@color/bg_dialog_alerta</item>
+
+    </style>
+
+    <style name="AppTheme.Dark.Dialog.Erro" parent="AppTheme.Dark.Dialog.Base">
+
+        <item name="android:background">@color/bg_dialog_erro</item>
+
+    </style>
+
+    <style name="AppTheme.Dark.Dialog.Info" parent="AppTheme.Dark.Dialog.Base">
+
+
+        <item name="android:background">@color/bg_dialog_info</item>
+
+    </style>
+
+    <style name="AppTheme.Dark.Dialog.Base" parent="Theme.AppCompat.Dialog.Alert">
+
+        <item name="colorAccent">@color/branco</item>
+        <item name="colorPrimary">@color/branco</item>
+        <item name="android:textColorPrimary">@color/branco</item>
+
+    </style>
+
+    <style name="btnDash">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/branco</item>
+        <item name="android:textSize">@dimen/txt_md</item>
+        <item name="android:padding">6dip</item>
+        <item name="android:background">@null</item>
+    </style>
+
+
 </resources>
