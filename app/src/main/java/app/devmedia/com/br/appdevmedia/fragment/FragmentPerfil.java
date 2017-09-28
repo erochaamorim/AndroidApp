@@ -26,7 +26,7 @@ public class FragmentPerfil extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_produtos, container, false);
+        return inflater.inflate(R.layout.fragment_perfil, container, false);
 
     }
 }

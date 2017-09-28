@@ -13,4 +13,8 @@
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="title_activity_editar_pessoa">EditarPessoa</string>
 
+    <!-- FORM DE CADASTRO DE PESSOA !-->
+    <string name="txt_nome">Nome: </string>
+    <string name="txt_email">Email: </string>
+    <string name="txt_minibio">Mini Biografia: </string>
 </resources>
