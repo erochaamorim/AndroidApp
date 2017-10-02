@@ -33,6 +33,12 @@ public class Util {
 
     }
 
+    public static void showSimpleToast(Activity activity, String txt) {
+
+        Toast.makeText(activity, txt, Toast.LENGTH_SHORT).show();
+
+    }
+
     public static void showMsgAlertOK(final Activity activity, String titulo, String txt, TipoMsg tipoMsg) {
 
         AlertDialog alertDialog = null;

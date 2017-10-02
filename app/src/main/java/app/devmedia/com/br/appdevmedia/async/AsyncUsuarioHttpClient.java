@@ -4,13 +4,13 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import app.devmedia.com.br.appdevmedia.util.Constantes;
+
 /**
  * Created by erick.amorim on 29/09/2017.
  */
 
 public class AsyncUsuarioHttpClient {
-
-    private static final String BASE_URL = "http://172.16.2.56:8080/lojavirtual-web/rest/";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
@@ -28,7 +28,7 @@ public class AsyncUsuarioHttpClient {
 
     private static String getAbsoluteUrl(String relativeUrl) {
 
-        return BASE_URL + relativeUrl;
+        return Constantes.URL_WS_BASE + relativeUrl;
 
     }
 

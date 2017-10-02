@@ -28,13 +28,13 @@ public class LoginActivity extends AppCompatActivity {
         preferences = getSharedPreferences("pref", Context.MODE_PRIVATE);
         String login = preferences.getString("login", null);
         String senha = preferences.getString("senha", null);
-//        if(login != null && senha != null) {
-//
-//            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-//            startActivity(i);
-//            finish();
-//
-//        }
+        if(login != null && senha != null) {
+
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
+
+        }
         edtLogin = (EditText) findViewById(R.id.edtLogin);
         edtSenha = (EditText) findViewById(R.id.edtSenha);
         btnLogar = (Button) findViewById(R.id.btnLogar);
