@@ -1,36 +1,20 @@
 package app.devmedia.com.br.appdevmedia.entidades;
 
-/**
- * Created by era on 05/08/2017.
- */
-
-public enum Profissao {
-
-    CIENTISTA("Cientista da Computação"),
-    ANALISTA("Analista de TI"),
-    PROFESSOR("Professor de Teoria da Computação"),
-    MUSICO("Músico"),
-    ILUSTRADOR("Ilustrador de Quadrinhos");
-
-    private Profissao(String descricao) {
-
-        this.descricao = descricao;
-
-    }
-
-    private String descricao;
-
-    public String getDescricao() {
-
-        return descricao;
-
-    }
-
-    @Override
-    public String toString()  {
-
-        return descricao;
-
-    }
+public class Profissao {
+	
+	protected int cod;
+	protected String descricao;
+	public int getCod() {
+		return cod;
+	}
+	public void setCod(int cod) {
+		this.cod = cod;
+	}
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
 }

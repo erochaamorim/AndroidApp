@@ -8,8 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -17,9 +20,16 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import app.devmedia.com.br.appdevmedia.R;
+import app.devmedia.com.br.appdevmedia.adapter.ProfissaoArrayAdapter;
+import app.devmedia.com.br.appdevmedia.entidades.Profissao;
 import app.devmedia.com.br.appdevmedia.entidades.User;
 import app.devmedia.com.br.appdevmedia.util.Constantes;
 
@@ -32,6 +42,8 @@ public class FragmentPerfil extends Fragment {
     protected Button btnCadastrar;
     protected EditText edtNome;
     protected TextInputLayout txtNome;
+    protected Spinner spnProfissao;
+    protected List<Profissao> profissoes;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +58,8 @@ public class FragmentPerfil extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
+        final Gson gson = new Gson();
+
         btnCadastrar = (Button) view.findViewById(R.id.btnCadastrar);
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
 
@@ -58,7 +72,6 @@ public class FragmentPerfil extends Fragment {
 
                 }
                 StringEntity stringEntity = null;
-                final Gson gson = new Gson();
                 try {
 
                     String json = gson.toJson(criarUser() );
@@ -88,6 +101,35 @@ public class FragmentPerfil extends Fragment {
 
         edtNome = (EditText) view.findViewById(R.id.edtNome);
         txtNome = (TextInputLayout) view.findViewById(R.id.txtNome);
+
+        spnProfissao = (Spinner) view.findViewById(R.id.spnProfissao);
+        new AsyncHttpClient().get(Constantes.URL_WS_BASE+"user/profissoes", new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+                Log.d("response", response.toString() );
+                profissoes = new ArrayList<Profissao>();
+                if(response != null) {
+
+                    for(int i = 0; i < response.length(); i++) {
+
+                        try {
+                            JSONObject jsonObject = response.getJSONObject(i);
+                            profissoes.add(gson.fromJson(jsonObject.toString(), Profissao.class) );
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    spnProfissao.setAdapter(new ProfissaoArrayAdapter(getActivity(), R.layout.linha_profissao, profissoes) );
+
+                }
+
+            }
+
+        });
+
 
         return view;
 
