@@ -8,12 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import app.devmedia.com.br.appdevmedia.R;
+import app.devmedia.com.br.appdevmedia.async.AsyncImageHelper;
 import app.devmedia.com.br.appdevmedia.entidades.Profissao;
+import app.devmedia.com.br.appdevmedia.util.Constantes;
 
 /**
  * Created by erick.amorim on 03/10/2017.
@@ -53,8 +56,15 @@ public class ProfissaoArrayAdapter extends ArrayAdapter<Profissao> {
 
         View linha = layoutInflater.inflate(R.layout.linha_profissao, parent, false);
 
+        Profissao profissao = profissoes.get(position);
         TextView txtProfissao = (TextView) linha.findViewById(R.id.txtProfissao);
-        txtProfissao.setText(profissoes.get(position).getDescricao() );
+        txtProfissao.setText(profissao.getDescricao() );
+
+        TextView txtDescricao = (TextView) linha.findViewById(R.id.txtDescricao);
+        txtDescricao.setText(profissao.getSubDescricao() );
+
+        ImageView imgProfissao = (ImageView) linha.findViewById(R.id.imgProfissao);
+        new AsyncImageHelper(imgProfissao).execute(Constantes.URL_WEB_BASE + profissao.getUrlImg() );
 
         return linha;
     }

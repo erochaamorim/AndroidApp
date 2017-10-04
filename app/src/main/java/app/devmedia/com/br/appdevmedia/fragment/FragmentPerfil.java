@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ public class FragmentPerfil extends Fragment {
     protected TextInputLayout txtNome;
     protected Spinner spnProfissao;
     protected List<Profissao> profissoes;
+    protected RelativeLayout lytLoading;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +59,9 @@ public class FragmentPerfil extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
+
+        lytLoading = (RelativeLayout) view.findViewById(R.id.lytLoading);
+        lytLoading.setVisibility(View.VISIBLE);
 
         final Gson gson = new Gson();
 
@@ -108,7 +113,6 @@ public class FragmentPerfil extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
-                Log.d("response", response.toString() );
                 profissoes = new ArrayList<Profissao>();
                 if(response != null) {
 
@@ -123,6 +127,7 @@ public class FragmentPerfil extends Fragment {
 
                     }
                     spnProfissao.setAdapter(new ProfissaoArrayAdapter(getActivity(), R.layout.linha_profissao, profissoes) );
+                    lytLoading.setVisibility(View.GONE);
 
                 }
 
