@@ -11,11 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -25,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +45,9 @@ import app.devmedia.com.br.appdevmedia.util.Constantes;
 public class FragmentPerfil extends Fragment {
 
     protected Button btnCadastrar;
-    protected EditText edtNome;
+    protected EditText edtNome, edtEmail, edtMiniBio;
+    protected RadioGroup rbgSexo;
+    protected RadioButton rbtFem, rbtMasc;
     protected TextInputLayout txtNome;
     protected Spinner spnProfissao;
     protected List<Profissao> profissoes;
@@ -79,7 +85,7 @@ public class FragmentPerfil extends Fragment {
                 StringEntity stringEntity = null;
                 try {
 
-                    String json = gson.toJson(criarUser() );
+                    String json = gson.toJson(montarPessoa() );
                     stringEntity = new StringEntity(json );
 
                 } catch (Exception e) {
@@ -106,6 +112,11 @@ public class FragmentPerfil extends Fragment {
 
         edtNome = (EditText) view.findViewById(R.id.edtNome);
         txtNome = (TextInputLayout) view.findViewById(R.id.txtNome);
+        edtEmail = (EditText) view.findViewById(R.id.edtEmail);
+        edtMiniBio = (EditText) view.findViewById(R.id.edtMiniBio);
+        rbgSexo = (RadioGroup) view.findViewById(R.id.rbgSexo);
+        rbtFem = (RadioButton) view.findViewById(R.id.rbtFeminino);
+        rbtMasc = (RadioButton) view.findViewById(R.id.rbtMasculino);
 
         spnProfissao = (Spinner) view.findViewById(R.id.spnProfissao);
         new AsyncHttpClient().get(Constantes.URL_WS_BASE+"user/profissoes", new JsonHttpResponseHandler() {
@@ -113,23 +124,18 @@ public class FragmentPerfil extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
-                profissoes = new ArrayList<Profissao>();
                 if(response != null) {
 
-                    for(int i = 0; i < response.length(); i++) {
-
-                        try {
-                            JSONObject jsonObject = response.getJSONObject(i);
-                            profissoes.add(gson.fromJson(jsonObject.toString(), Profissao.class) );
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
+                    Type type = new TypeToken<List<Profissao>>() {}.getType();
+                    profissoes = gson.fromJson(response.toString(), type);
                     spnProfissao.setAdapter(new ProfissaoArrayAdapter(getActivity(), R.layout.linha_profissao, profissoes) );
-                    lytLoading.setVisibility(View.GONE);
+
+                } else {
+
+                    Toast.makeText(getActivity(), "Houve um erro no carregamento da lista de profissões.", Toast.LENGTH_SHORT).show();
 
                 }
+                lytLoading.setVisibility(View.GONE);
 
             }
 
@@ -156,15 +162,15 @@ public class FragmentPerfil extends Fragment {
 
     }
 
-    private User criarUser() {
+    private User montarPessoa() {
 
         User user = new User();
-        user.setId(1);
-        user.setNome("Fulano");
-        user.setSexo('M');
-        user.setCodProfissao(1);
-        user.setEmail("fulano@de.tal");
-        user.setMiniBio("Nasceu, viveu e morreu.");
+        user.setNome(edtNome.getText().toString() );
+        user.setEmail(edtNome.getText().toString() );
+        user.setMiniBio(edtMiniBio.getText().toString() );
+        user.setSexo(rbtFem.isChecked() ? 'F' : 'M');
+        user.setProfissao((Profissao) spnProfissao.getSelectedItem());
+
         return user;
 
     }

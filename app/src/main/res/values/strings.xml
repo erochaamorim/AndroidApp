@@ -17,4 +17,8 @@
     <string name="txt_nome">Nome: </string>
     <string name="txt_email">Email: </string>
     <string name="txt_minibio">Mini Biografia: </string>
+
+    <!-- TÍTULOS DA NAVEGAÇÃO !-->
+    <string name="nav_produtos">Produtos</string>
+    <string name="nav_perfi">Perfil</string>
 </resources>

@@ -27,4 +27,7 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.loopj.android:android-async-http:1.4.8'
     compile 'com.google.code.gson:gson:2.6.2'
+    compile('com.mikepenz:materialdrawer:5.1.6@aar') {
+        transitive = true
+    }
 }
