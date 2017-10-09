@@ -30,4 +30,5 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.1.6@aar') {
         transitive = true
     }
+    compile 'com.mikepenz:fontawesome-typeface:4.7.0.1@aar'
 }
