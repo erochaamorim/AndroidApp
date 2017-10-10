@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import app.devmedia.com.br.appdevmedia.R;
@@ -64,7 +66,7 @@ public class ProfissaoArrayAdapter extends ArrayAdapter<Profissao> {
         txtDescricao.setText(profissao.getSubDescricao() );
 
         ImageView imgProfissao = (ImageView) linha.findViewById(R.id.imgProfissao);
-        new AsyncImageHelper(imgProfissao).execute(Constantes.URL_WEB_BASE + profissao.getUrlImg() );
+        Picasso.with(imgProfissao.getContext() ).load(Constantes.URL_WEB_BASE + profissao.getUrlImg()).into(imgProfissao);
 
         return linha;
     }
