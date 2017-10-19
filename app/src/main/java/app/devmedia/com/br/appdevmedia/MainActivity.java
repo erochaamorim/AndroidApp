@@ -31,6 +31,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import app.devmedia.com.br.appdevmedia.adapter.ViewPagerAdapter;
 import app.devmedia.com.br.appdevmedia.async.AsyncUsuario;
+import app.devmedia.com.br.appdevmedia.fragment.FragmentCompras;
 import app.devmedia.com.br.appdevmedia.fragment.FragmentPerfil;
 import app.devmedia.com.br.appdevmedia.fragment.FragmentProdutos;
 
@@ -152,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager() );
         viewPagerAdapter.addFragment(new FragmentProdutos(), "Produtos" );
         viewPagerAdapter.addFragment(new FragmentPerfil(), "Perfil" );
+        viewPagerAdapter.addFragment(new FragmentCompras(), "Compras");
         viewPager.setAdapter(viewPagerAdapter);
 
     }
