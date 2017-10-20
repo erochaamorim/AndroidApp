@@ -1,5 +1,6 @@
 package app.devmedia.com.br.appdevmedia.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,18 +8,26 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+
 import app.devmedia.com.br.appdevmedia.R;
 import app.devmedia.com.br.appdevmedia.util.Constantes;
+import it.gmariotti.cardslib.library.cards.actions.BaseSupplementalAction;
+import it.gmariotti.cardslib.library.cards.actions.IconSupplementalAction;
+import it.gmariotti.cardslib.library.cards.material.MaterialLargeImageCard;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardExpand;
 import it.gmariotti.cardslib.library.internal.CardHeader;
@@ -49,7 +58,7 @@ public class FragmentCompras extends Fragment {
         lytLoading.setVisibility(View.VISIBLE);
 
         Card card = new Card(getContext());
-        CardHeader header = new CardHeader(getContext());
+        CompraInnerHeader header = new CompraInnerHeader(getContext());
         header.setTitle("Card Demo");
         header.setPopupMenu(R.menu.menu_main, new CardHeader.OnClickCardHeaderPopupMenuListener(){
             @Override
@@ -86,6 +95,33 @@ public class FragmentCompras extends Fragment {
         CardViewNative cardCollapseView = (CardViewNative) view.findViewById(R.id.cardCollapse);
         cardCollapseView.setCard(cardCollapse);
 
+        ArrayList<BaseSupplementalAction> actions = new ArrayList<BaseSupplementalAction>();
+        IconSupplementalAction t1 = new IconSupplementalAction(getActivity(), R.id.ic1);
+        t1.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
+            @Override
+            public void onClick(Card card, View view) {
+                Toast.makeText(getActivity()," Click on Text SHARE ",Toast.LENGTH_SHORT).show();
+            }
+        });
+        actions.add(t1);
+        IconSupplementalAction t2 = new IconSupplementalAction(getActivity(), R.id.ic2);
+        t2.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
+            @Override
+            public void onClick(Card card, View view) {
+                Toast.makeText(getActivity()," Click on Text LEARN ",Toast.LENGTH_SHORT).show();
+            }
+        });
+        actions.add(t2);
+        MaterialLargeImageCard materialCard =
+                MaterialLargeImageCard.with(getActivity())
+                        .setTextOverImage("Italian Beaches")
+                        .useDrawableId(R.drawable.header)
+                        .setupSupplementalActions(R.layout.carddemo_native_material_supplemental_actions_large_icon, actions )
+                        .build();
+
+        CardViewNative cardViewMaterial = (CardViewNative) view.findViewById(R.id.carddemo_largeimage);
+        cardViewMaterial.setCard(materialCard);
+
         new AsyncHttpClient().get(Constantes.URL_WS_BASE+"produtos/index", new JsonHttpResponseHandler() {
 
             @Override
@@ -104,4 +140,28 @@ public class FragmentCompras extends Fragment {
         return view;
 
     }
+
+    protected class CompraInnerHeader extends CardHeader {
+
+        public CompraInnerHeader(Context context) {
+
+            super(context, R.layout.linha_header_compra);
+
+        }
+
+        @Override
+        public void setupInnerViewElements(ViewGroup parent, View view) {
+
+            ImageView imgProduto = (ImageView) view.findViewById(R.id.imgProduto);
+            TextView txtTitulo = (TextView) view.findViewById(R.id.txtTitulo);
+            TextView txtDescricao = (TextView) view.findViewById(R.id.txtDescricao);
+
+            Picasso.with(imgProduto.getContext()).load(Constantes.URL_WEB_BASE + "img/produtos/mochila.jpg").into(imgProduto);
+            txtTitulo.setText("Produto Teste");
+            txtDescricao.setText("Descrição Teste");
+
+        }
+
+    }
+
 }
