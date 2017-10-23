@@ -44,9 +44,15 @@
         android:id="@+id/carddemo_largeimage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:card_layout_resourceID="@layout/native_material_largeimage_card"
+        app:card_layout_resourceID="@layout/native_material_largeimage_text_card"
         style="@style/card_external"
         />
+
+        <it.gmariotti.cardslib.library.recyclerview.view.CardRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:list_card_layout_resourceID="@layout/material_recyclerview_card_layout"
+            android:id="@+id/carddemo_recyclerview"/>
 
     </LinearLayout>
 

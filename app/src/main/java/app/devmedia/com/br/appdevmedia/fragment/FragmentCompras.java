@@ -1,9 +1,11 @@
 package app.devmedia.com.br.appdevmedia.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +34,8 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardExpand;
 import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.internal.base.BaseCard;
+import it.gmariotti.cardslib.library.recyclerview.internal.CardArrayRecyclerViewAdapter;
+import it.gmariotti.cardslib.library.recyclerview.view.CardRecyclerView;
 import it.gmariotti.cardslib.library.view.CardView;
 import it.gmariotti.cardslib.library.view.CardViewNative;
 
@@ -89,9 +93,6 @@ public class FragmentCompras extends Fragment {
             }
         });
         cardCollapse.addCardHeader(headerCollapse);
-//        CardExpand expand = new CardExpand(getContext());
-//        expand.setTitle("Collapse Expand");
-//        cardCollapse.addCardExpand(expand);
         CardViewNative cardCollapseView = (CardViewNative) view.findViewById(R.id.cardCollapse);
         cardCollapseView.setCard(cardCollapse);
 
@@ -100,7 +101,7 @@ public class FragmentCompras extends Fragment {
         t1.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
             @Override
             public void onClick(Card card, View view) {
-                Toast.makeText(getActivity()," Click on Text SHARE ",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity()," Clicked on Search ",Toast.LENGTH_SHORT).show();
             }
         });
         actions.add(t1);
@@ -108,19 +109,41 @@ public class FragmentCompras extends Fragment {
         t2.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
             @Override
             public void onClick(Card card, View view) {
-                Toast.makeText(getActivity()," Click on Text LEARN ",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity()," Clicked on Mail ",Toast.LENGTH_SHORT).show();
             }
         });
         actions.add(t2);
         MaterialLargeImageCard materialCard =
                 MaterialLargeImageCard.with(getActivity())
+                        .setTitle("Título Exemplo")
+                        .setSubTitle("Exemplo de um Subtítulo")
                         .setTextOverImage("Italian Beaches")
-                        .useDrawableId(R.drawable.header)
+                        .useDrawableExternal(new MaterialLargeImageCard.DrawableExternal() {
+                            @Override
+                            public void setupInnerViewElements(ViewGroup parent, View viewImage) {
+
+                                Picasso.with(getActivity())
+                                        .load("http://www.venice-italy-veneto.com/images/Italian-beaches-My-Italy.jpg")
+                                        .error(R.drawable.card_background)
+                                        .into((ImageView) viewImage);
+                            }
+                        })
                         .setupSupplementalActions(R.layout.carddemo_native_material_supplemental_actions_large_icon, actions )
                         .build();
-
         CardViewNative cardViewMaterial = (CardViewNative) view.findViewById(R.id.carddemo_largeimage);
         cardViewMaterial.setCard(materialCard);
+        TextView txtTitulo = (TextView) cardViewMaterial.findViewById(R.id.card_main_inner_simple_title);
+        txtTitulo.setTextColor(Color.MAGENTA);
+
+        CardArrayRecyclerViewAdapter mCardArrayAdapter = new CardArrayRecyclerViewAdapter(getActivity(), carregarMaterialCards(view));
+        CardRecyclerView mRecyclerView = (CardRecyclerView) view.findViewById(R.id.carddemo_recyclerview);
+        mRecyclerView.setHasFixedSize(false);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if (mRecyclerView != null) {
+
+            mRecyclerView.setAdapter(mCardArrayAdapter);
+
+        }
 
         new AsyncHttpClient().get(Constantes.URL_WS_BASE+"produtos/index", new JsonHttpResponseHandler() {
 
@@ -138,6 +161,55 @@ public class FragmentCompras extends Fragment {
             }
         });
         return view;
+
+    }
+
+    protected ArrayList<Card> carregarMaterialCards(View view) {
+
+        ArrayList<Card> cards = new ArrayList<Card>();
+
+        for(int i = 0; i < 3; i++) {
+
+            ArrayList<BaseSupplementalAction> actions = new ArrayList<BaseSupplementalAction>();
+            IconSupplementalAction t1 = new IconSupplementalAction(getActivity(), R.id.ic1);
+            t1.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
+                @Override
+                public void onClick(Card card, View view) {
+                    Toast.makeText(getActivity()," Clicked on Search ",Toast.LENGTH_SHORT).show();
+                }
+            });
+            actions.add(t1);
+            IconSupplementalAction t2 = new IconSupplementalAction(getActivity(), R.id.ic2);
+            t2.setOnActionClickListener(new BaseSupplementalAction.OnActionClickListener() {
+                @Override
+                public void onClick(Card card, View view) {
+                    Toast.makeText(getActivity()," Clicked on Mail ",Toast.LENGTH_SHORT).show();
+                }
+            });
+            actions.add(t2);
+            MaterialLargeImageCard materialCard =
+                    MaterialLargeImageCard.with(getActivity())
+                            .setTitle("Título Exemplo " + (i+1) + "º")
+                            .setSubTitle("Exemplo de um Subtítulo " + (i+1) + "º")
+                            .setTextOverImage("Italian Beaches " + (i+1) + "º")
+                            .useDrawableExternal(new MaterialLargeImageCard.DrawableExternal() {
+                                @Override
+                                public void setupInnerViewElements(ViewGroup parent, View viewImage) {
+
+                                    Picasso.with(getActivity())
+                                            .load("http://www.venice-italy-veneto.com/images/Italian-beaches-My-Italy.jpg")
+                                            .error(R.drawable.card_background)
+                                            .into((ImageView) viewImage);
+                                }
+                            })
+                            .setupSupplementalActions(R.layout.carddemo_native_material_supplemental_actions_large_icon, actions )
+                            .build();
+
+            cards.add(materialCard);
+
+        }
+
+        return cards;
 
     }
 
