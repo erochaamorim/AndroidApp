@@ -1,4 +1,4 @@
-package app.devmedia.com.br.appdevmedia.service;
+package app.devmedia.com.br.appdevmedia.firebase;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 
