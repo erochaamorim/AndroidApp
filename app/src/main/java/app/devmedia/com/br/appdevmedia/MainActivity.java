@@ -1,5 +1,9 @@
 package app.devmedia.com.br.appdevmedia;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -7,6 +11,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,8 +34,13 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import java.io.Serializable;
+
 import app.devmedia.com.br.appdevmedia.adapter.ViewPagerAdapter;
 import app.devmedia.com.br.appdevmedia.async.AsyncUsuario;
+import app.devmedia.com.br.appdevmedia.entidades.ProdutoNotification;
+import app.devmedia.com.br.appdevmedia.firebase.MyFirebaseInstanceIDService;
+import app.devmedia.com.br.appdevmedia.firebase.MyFirebaseMessagingService;
 import app.devmedia.com.br.appdevmedia.fragment.FragmentCompras;
 import app.devmedia.com.br.appdevmedia.fragment.FragmentPerfil;
 import app.devmedia.com.br.appdevmedia.fragment.FragmentProdutos;
@@ -41,8 +51,11 @@ public class MainActivity extends AppCompatActivity {
     protected TabLayout tabLayout;
     protected ViewPager viewPager;
     protected Drawer drawer;
+    protected BroadcastReceiver registrationBroadcastReceiver;
 
     protected final static long ID_ND_FOOTER = 500;
+    protected final static String REGISTRATION = "REGISTRATION";
+    protected final static String PUSH = "PUSH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +121,13 @@ public class MainActivity extends AppCompatActivity {
         drawer.addStickyFooterItem(new PrimaryDrawerItem()
                 .withName("Sobre o App")
                 .withIdentifier(ID_ND_FOOTER));
+        Serializable serializable = getIntent().getExtras().getSerializable("nf_produto");
+        if(serializable != null) {
+
+            ProdutoNotification nf_produto = (ProdutoNotification) serializable;
+            Toast.makeText(MainActivity.this, nf_produto.toString(), Toast.LENGTH_LONG).show();
+
+        }
 
     }
 
@@ -171,5 +191,30 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void configurarFirebase() {
+
+        registrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                String token = intent.getStringExtra("token");
+
+            }
+
+        };
+        Intent intent = new Intent(this, MyFirebaseMessagingService.class);
+        intent.putExtra("key", "register");
+        startService(intent);
+
+    }
+
+    protected void onResume() {
+
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(registrationBroadcastReceiver, new IntentFilter(REGISTRATION));
+        LocalBroadcastManager.getInstance(this).registerReceiver(registrationBroadcastReceiver, new IntentFilter(PUSH));
+
     }
 }
