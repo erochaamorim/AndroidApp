@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -60,21 +62,29 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         RequestParams params = new RequestParams();
         params.put("login", login);
         params.put("token", token);
-        AsyncUsuarioHttpClient.post("firebase/sendToken", params, new JsonHttpResponseHandler() {
+        AsyncUsuarioHttpClient.post("fcm/sendToken", params, new TextHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    Log.d(TAG.substring(0, 22), response.getString("msg") );
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            public void onFailure(int statusCode, Header[] headers, String resultado, Throwable throwable) {
+
+                Log.e("Token reg error", "HttpCode: " + statusCode, throwable);
+                oast.makeText(MyFirebaseInstanceIDService.this, "Erro no registro do token: " + resultado, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String resultado) {
+                if(Boolean.valueOf(resultado) ) {
+
+                    Toast.makeText(MyFirebaseInstanceIDService.this, "Registro do token: " + resultado, Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    Toast.makeText(MyFirebaseInstanceIDService.this, "Erro no registro do token.", Toast.LENGTH_SHORT).show();
+
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e(responseString.substring(0, 22), throwable.getStackTrace().toString() );
-            }
         });
     }
 }
