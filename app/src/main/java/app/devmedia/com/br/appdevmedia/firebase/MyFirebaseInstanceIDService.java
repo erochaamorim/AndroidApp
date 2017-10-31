@@ -68,7 +68,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
             public void onFailure(int statusCode, Header[] headers, String resultado, Throwable throwable) {
 
                 Log.e("Token reg error", "HttpCode: " + statusCode, throwable);
-                oast.makeText(MyFirebaseInstanceIDService.this, "Erro no registro do token: " + resultado, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyFirebaseInstanceIDService.this, "Erro no registro do token: " + resultado, Toast.LENGTH_SHORT).show();
 
             }
 
