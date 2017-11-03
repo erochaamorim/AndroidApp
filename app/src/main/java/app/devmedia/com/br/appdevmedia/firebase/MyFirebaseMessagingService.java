@@ -17,7 +17,15 @@ import app.devmedia.com.br.appdevmedia.notification.NotificationUtil;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    private NotificationUtil notificationUtil = new NotificationUtil(getApplicationContext() );
+    private NotificationUtil notificationUtil;
+
+    @Override
+    public void onCreate() {
+
+        super.onCreate();
+        notificationUtil = new NotificationUtil(getApplicationContext() );
+
+    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {

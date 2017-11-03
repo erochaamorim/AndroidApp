@@ -15,11 +15,13 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -121,13 +123,22 @@ public class MainActivity extends AppCompatActivity {
         drawer.addStickyFooterItem(new PrimaryDrawerItem()
                 .withName("Sobre o App")
                 .withIdentifier(ID_ND_FOOTER));
-        Serializable serializable = getIntent().getExtras().getSerializable("nf_produto");
-        if(serializable != null) {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if(bundle != null) {
 
-            ProdutoNotification nf_produto = (ProdutoNotification) serializable;
-            Toast.makeText(MainActivity.this, nf_produto.toString(), Toast.LENGTH_LONG).show();
+            Serializable serializable = bundle.getSerializable("nf_produto");
+            if(serializable != null) {
+
+                ProdutoNotification nf_produto = (ProdutoNotification) serializable;
+                Toast.makeText(MainActivity.this, nf_produto.toString(), Toast.LENGTH_LONG).show();
+
+            }
 
         }
+        configurarFirebase();
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("token", token);
 
     }
 
