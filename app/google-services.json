@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "675890810716",
+    "firebase_url": "https://loja-devmedia.firebaseio.com",
+    "project_id": "loja-devmedia",
+    "storage_bucket": "loja-devmedia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675890810716:android:befbb9b6a7c52c46",
+        "android_client_info": {
+          "package_name": "app.devmedia.com.br.appdevmedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "675890810716-dq5opn4j5p3qf7qgvhuqddto1eqvucb2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.devmedia.com.br.appdevmedia",
+            "certificate_hash": "4850d87db7352176c2d8be72997cc0e4755d291e"
+          }
+        },
+        {
+          "client_id": "675890810716-e9ch6e475plqg4l909jsnneihjja36i2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPMGdWvjGAAyBoUE5Z27h9GetQd0DToWQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "675890810716-e9ch6e475plqg4l909jsnneihjja36i2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

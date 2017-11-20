@@ -19,7 +19,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -39,27 +38,33 @@ public class NotificationUtil {
         this.context = context;
     }
 
-    public void showSmallNotificationMsg(String titulo, String msg, String timestamp, Intent intent) {
+    public void showSmallNotificationMsg(String titulo, String msg, String timestamp, Intent intent, Integer count) {
 
-        showBigNotificationMsg(titulo, msg, timestamp, intent, null);
+        showBigNotificationMsg(titulo, msg, timestamp, intent, count, null, null);
 
     }
 
-    public void showBigNotificationMsg(String titulo, String msg, String timestamp, Intent intent, String imgUrl) {
+    public void showBigNotificationMsg(String titulo, String msg, String timestamp, Intent intent, Integer count, String iconUrl, String imgUrl) {
 
         if(TextUtils.isEmpty(msg) ) {
 
             return;
 
         }
-        int icon = R.mipmap.ic_launcher;
+
+        Bitmap icon = null;
+        if(iconUrl == null) {
+
+            icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_notifications_black_24dp);
+
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         Uri somAlarme = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/raw/notification");
         if(TextUtils.isEmpty(imgUrl) ) {
 
-            showSmallNotification(builder, icon, titulo, msg, timestamp, pendingIntent, somAlarme);
+            showSmallNotification(builder, icon, titulo, msg, timestamp, count, pendingIntent, somAlarme);
 
         } else {
 
@@ -68,11 +73,11 @@ public class NotificationUtil {
                 Bitmap bitmap = getBitmapFromUrl(imgUrl);
                 if(bitmap != null) {
 
-                    showBigNotification(bitmap, builder, icon, titulo, msg, timestamp, pendingIntent, somAlarme);
+                    showBigNotification(bitmap, builder, icon, titulo, msg, timestamp, count, pendingIntent, somAlarme);
 
                 } else {
 
-                    showSmallNotification(builder, icon, titulo, msg, timestamp, pendingIntent, somAlarme);
+                    showSmallNotification(builder, icon, titulo, msg, timestamp, count, pendingIntent, somAlarme);
 
                 }
 
@@ -83,16 +88,18 @@ public class NotificationUtil {
     }
 
     protected void showSmallNotification(NotificationCompat.Builder builder,
-                                         int icon,
+                                         Bitmap icon,
                                          String titulo,
                                          String msg,
                                          String timestamp,
+                                         Integer count,
                                          PendingIntent pendingIntent,
                                          Uri somAlarme) {
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         inboxStyle.addLine(msg);
-        Notification notification = builder.setSmallIcon(icon)
+
+        builder.setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .setTicker(titulo)
                 .setContentTitle(titulo)
                 .setContentText(msg)
@@ -100,10 +107,15 @@ public class NotificationUtil {
                 .setAutoCancel(true)
                 .setSound(somAlarme)
                 .setWhen(getTimeMilliSec(timestamp) )
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), icon) )
-                .setNumber(4)
-                .setStyle(inboxStyle)
-                .build();
+                .setLargeIcon(icon)
+                .setStyle(inboxStyle);
+        if(count != null) {
+
+            builder.setNumber(count);
+
+        }
+        Notification notification = builder.build();
+
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notification);
 
@@ -111,10 +123,11 @@ public class NotificationUtil {
 
     protected void showBigNotification(Bitmap bitmap,
                                        NotificationCompat.Builder builder,
-                                       int icon,
+                                       Bitmap icon,
                                        String titulo,
                                        String msg,
                                        String timestamp,
+                                       Integer count,
                                        PendingIntent pendingIntent,
                                        Uri somAlarme) {
 
@@ -122,7 +135,7 @@ public class NotificationUtil {
         bigPictureStyle.setBigContentTitle(titulo);
         bigPictureStyle.setSummaryText(Html.fromHtml(msg).toString() );
         bigPictureStyle.bigPicture(bitmap);
-        Notification notification = builder.setSmallIcon(icon)
+        builder.setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .setTicker(titulo)
                 .setContentTitle(titulo)
                 .setContentText(msg)
@@ -130,11 +143,16 @@ public class NotificationUtil {
                 .setAutoCancel(true)
                 .setSound(somAlarme)
                 .setWhen(getTimeMilliSec(timestamp) )
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), icon) )
-                .setNumber(4)
-                .setStyle(bigPictureStyle)
-                .build();
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                .setLargeIcon(icon)
+                .setStyle(bigPictureStyle);
+        if(count != null) {
+
+            builder.setNumber(count);
+
+        }
+        Notification notification = builder.build();
+
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(BIG_NOTIFICATION_ID, notification);
 
     }

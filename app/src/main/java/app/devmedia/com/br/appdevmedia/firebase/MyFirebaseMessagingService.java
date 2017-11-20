@@ -35,10 +35,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String message  = dados.get("message");
         String data  = dados.get("data");
         String idProduto  = dados.get("id");
+        String imgUrl = dados.get("imgUrl");
+        String count = dados.get("count");
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         ProdutoNotification produtoNotification = new ProdutoNotification(Integer.parseInt(idProduto), titulo, message, data);
         i.putExtra("nf_produto", produtoNotification);
-        notificationUtil.showSmallNotificationMsg(titulo, message, data, i);
+        notificationUtil.showBigNotificationMsg(titulo, message, data, i, count != null ? Integer.parseInt(count) : null, null, imgUrl);
 
     }
 
