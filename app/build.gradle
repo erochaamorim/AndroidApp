@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "app.devmedia.com.br.appdevmedia"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -30,9 +30,6 @@ dependencies {
         transitive = true
     }
 
-
-
-
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.loopj.android:android-async-http:1.4.8'
@@ -45,6 +42,7 @@ dependencies {
     compile 'com.github.gabrielemariotti.cards:cardslib-cards:2.1.0'
     compile 'com.github.gabrielemariotti.cards:cardslib-recyclerview:2.1.0'
     compile 'com.google.firebase:firebase-messaging:10.0.1'
+    compile 'com.paypal.sdk:paypal-android-sdk:2.15.3'
     testCompile 'junit:junit:4.12'
 }
 
